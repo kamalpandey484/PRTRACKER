@@ -11,8 +11,8 @@ import { rhinoIndia, rhinoSouth } from '../constants/assignee.constant';
 dotenv.config();
 const apiKey = process.env.GITHUB_ACCESS_TOKEN;
 
-const getpr = (value) => {
-  const link = fetch(`https://api.github.com/repos/rhinogram/${value}/pulls?state=all&access_token=${apiKey}`)
+const getpr = (value, state) => {
+  const link = fetch(`https://api.github.com/repos/rhinogram/${value}/pulls?state=${state}&per_page=20&access_token=${apiKey}`)
     .then((res) => res.json());
   return link;
 };
@@ -29,21 +29,24 @@ export const getComments = async (component, value) => {
   return link;
 };
 
-export const getprcheck = async () => {
-  const getAllPrData = await Promise.all([getpr('rhinofront'), getpr('rhinoapi'), getpr('rhinostyle'), getpr('rhinoaudit'), getpr('rhinopay'), getpr('rhinomatic'), getpr('rhinoaudit-client'), getpr('rhinotilities'), getpr('rhinocron')])
+export const getprcheck = async (state) => {
+  const getAllPrData = await Promise.all([getpr('rhinofront', state), getpr('rhinoapi', state), getpr('rhinostyle', state), getpr('rhinoaudit', state), getpr('rhinopay', state), getpr('rhinomatic', state), getpr('rhinoaudit-client', state), getpr('rhinotilities', state), getpr('rhinocron', state)])
     .then((res) => res)
     .catch((e) => e);
   return getAllPrData;
 };
 
-const formatReviewersData = (reviewersData, rhinoSouthTeam) => {
-  const reviewers = reviewersData.map((item) => ({
-    // username: rhinoSouthTeam ? rhinoSouth[item.user.login] : rhinoIndia[item.user.login],
-    username: item.user.login,
-    state: item.state,
-    body: item.body,
-    date: item.submitted_at,
-  }));
+const formatReviewersData = (reviewersData) => {
+  const reviewers = reviewersData.map((item) => {
+    const rhinoSouthTeam = Object.keys(rhinoSouth).includes(item.user.login);
+    return {
+      username: rhinoSouthTeam ? rhinoSouth[item.user.login] : rhinoIndia[item.user.login],
+      // username: item.user.login,
+      state: item.state,
+      body: item.body,
+      date: item.submitted_at,
+    };
+  });
   return reviewers;
 };
 
@@ -56,8 +59,9 @@ const formatCommentsData = (commentsData, rhinoSouthTeam) => {
   return comments;
 };
 
-export const formatPrData = async () => {
-  const data = await getprcheck();
+export const formatPrData = async (state) => {
+  const data = await getprcheck(state);
+  console.log('data', data);
   const totalData = [];
   for (const outerValue of data) {
     for (const innerValue of outerValue) {
@@ -70,20 +74,18 @@ export const formatPrData = async () => {
       const {
         number,
       } = innerValue;
-      let rhinoIndiaTeam = false;
       let rhinoSouthTeam = false;
       const { login } = innerValue.user;
-      rhinoIndiaTeam = Object.keys(rhinoIndia).includes(login);
       rhinoSouthTeam = Object.keys(rhinoSouth).includes(login);
-      const reviewers = formatReviewersData(await getReviewers(name, number), rhinoSouthTeam);
-      const comments = formatCommentsData(await getComments(name, number), rhinoSouthTeam);
+      const reviewers = formatReviewersData(await getReviewers(name, number));
+      const comments = formatCommentsData(await getComments(name, number));
       const createdAt = innerValue.created_at;
       const closedAt = innerValue.closed_at;
       const myData = {
         prLink: innerValue.html_url,
         prId: innerValue.number,
         raisedBy: rhinoSouthTeam ? rhinoSouth[login] : rhinoIndia[login],
-        team: rhinoIndiaTeam ? 'rhinoIndia' : 'rhinoSouth',
+        team: rhinoSouthTeam ? 'rhinoSouth' : 'rhinoIndia',
         status: innerValue.state,
         jiraId: newJiraId,
         jiraLink: `https://rhinogram.atlassian.net/browse/${newJiraId}`,
@@ -102,9 +104,9 @@ export const formatPrData = async () => {
   return totalData;
 };
 
-export const postPullRequestData = async () => {
-  const data = await formatPrData();
+export const postPullRequestData = async (state) => {
+  const data = await formatPrData(state);
   for (const myData of data) {
     await postData(myData).then((res) => res);
-  }
+  } 
 };

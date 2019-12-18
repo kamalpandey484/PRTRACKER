@@ -49,7 +49,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const port = process.env.PORT || 4000;
+const port = 4000;
 // Start the server
 app.listen(port, () => {
   // eslint-disable-next-line no-console
