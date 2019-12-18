@@ -8,7 +8,8 @@
     "lint": "eslint ./src",
     "start-server": "yarn && nodemon --exec 'babel-node index.js'",
     "start-client": "npm start --prefix client",
-    "start-dev": "concurrently \"sudo yarn start-server\" \"sudo npm run start-client\""
+    "start-dev": "concurrently \"sudo yarn start-server\" \"sudo npm run start-client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "repository": {
     "type": "git",

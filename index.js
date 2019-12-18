@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import {
   CronJob,
 } from 'cron';
+import path from 'path';
 import {
   postPullRequestData,
 } from './src/toolboxes/pullrequest.toolboxes';
@@ -37,7 +38,18 @@ new CronJob('1 */3 * * *', () => {
 
 // Routes
 app.use('/api/pullrequests/', pullRequests);
-const port = 4000;
+
+// serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+  // set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
+const port = process.env.PORT || 4000;
 // Start the server
 app.listen(port, () => {
   // eslint-disable-next-line no-console
