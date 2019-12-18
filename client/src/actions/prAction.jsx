@@ -15,7 +15,7 @@ const setPrTrackerLoader = createAction(SET_PR_TRACKER_LOADING);
 export const setFilters = createAction(SET_FILTERS);
 
 export const fetchPullRequests = (status, component, team) => {
-  let url = 'http://localhost:4000/api/pullrequests?';
+  let url = 'p-r-tracker.herokuapp.com/api/pullrequests?';
   if (status) {
     url = `${url}status=${status}&`;
   }
@@ -39,7 +39,7 @@ export const fetchPullRequests = (status, component, team) => {
 };
 
 export const postPullRequests = () => {
-  const url = 'http://localhost:4000/api/pullrequests';
+  const url = 'p-r-tracker.herokuapp.com/api/pullrequests';
   return (dispatch) => {
     dispatch(setPrTrackerRefreshLoader(true));
     axios.post(url)
@@ -56,7 +56,7 @@ export const postPullRequests = () => {
 export const searchPullRequests = (jiraId) => {
   return (dispatch) => {
     dispatch(setPrTrackerLoader(true));
-    axios.get(`http://localhost:4000/api/pullrequests/search?q=RHIN-${jiraId}`)
+    axios.get(`p-r-tracker.herokuapp.com/api/pullrequests/search?q=RHIN-${jiraId}`)
       .then((res) => {
         dispatch(getPrTrackerData(res.data));
         dispatch(setPrTrackerLoader(false));
