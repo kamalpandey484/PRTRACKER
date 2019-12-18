@@ -8,8 +8,8 @@ import {
 } from 'cron';
 import {
   postPullRequestData,
-} from './toolboxes/pullrequest.toolboxes';
-import pullRequests from './routers/pullrequest.router';
+} from './src/toolboxes/pullrequest.toolboxes';
+import pullRequests from './src/routers/pullrequest.router';
 
 dotenv.config();
 mongoose
