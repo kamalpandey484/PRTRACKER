@@ -6,9 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ./src",
-    "build": "babel-node index.js",
-    "start": "npm run build && node index.js",
-    "start-server": "npm run build && nodemon index.js",
+    "start": "node -r esm index.js",
+    "start-server": "nodemon -r esm index.js",
     "client": "npm start --prefix client",
     "start-dev": "concurrently \"npm run start-server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
@@ -24,21 +23,19 @@
   },
   "homepage": "https://github.com/kamalpandey484/PRTRACKER#readme",
   "dependencies": {
-    "@babel/node": "^7.7.7",
     "body-parser": "^1.19.0",
     "concurrently": "^5.0.1",
     "cors": "^2.8.5",
     "cron": "^1.7.2",
     "date-fns": "^2.1.0",
     "dotenv": "^8.1.0",
+    "esm": "^3.2.25",
     "express": "^4.17.1",
     "mongoose": "^5.6.6",
     "node-cron": "^2.0.3",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.6.0",
     "@typescript-eslint/eslint-plugin": "^2.2.0",
     "@typescript-eslint/parser": "^2.2.0",
     "eslint": "^6.3.0",
