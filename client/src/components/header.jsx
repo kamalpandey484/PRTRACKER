@@ -17,6 +17,7 @@ class Header extends Component {
       status: 'open',
       component: '',
       team: '',
+      jiraId: ''
     };
   }
 
