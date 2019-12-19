@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/kamalpandey484/PRTRACKER#readme",
   "dependencies": {
+    "@babel/node": "^7.7.7",
     "body-parser": "^1.19.0",
     "concurrently": "^5.0.1",
     "cors": "^2.8.5",
@@ -37,7 +38,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
-    "@babel/node": "^7.5.5",
     "@babel/preset-env": "^7.6.0",
     "@typescript-eslint/eslint-plugin": "^2.2.0",
     "@typescript-eslint/parser": "^2.2.0",
