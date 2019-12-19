@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ./src",
-    "start": "node index.js",
-    "start-server": "nodemon --exec 'babel-node index.js'",
+    "build": "babel-node index.js",
+    "start": "npm run build && node index.js",
+    "start-server": "npm run build && nodemon index.js",
     "client": "npm start --prefix client",
     "start-dev": "concurrently \"npm run start-server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
