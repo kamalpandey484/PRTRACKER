@@ -1,4 +1,4 @@
-import * as fetch from 'node-fetch';
+import fetch from 'node-fetch';
 import formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import parseISO from 'date-fns/parseISO';
 import dotenv from 'dotenv';
@@ -108,5 +108,5 @@ export const postPullRequestData = async (state) => {
   const data = await formatPrData(state);
   for (const myData of data) {
     await postData(myData).then((res) => res);
-  } 
+  }
 };

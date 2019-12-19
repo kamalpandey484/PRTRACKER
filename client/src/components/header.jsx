@@ -33,7 +33,7 @@ handleStatusChange= (e) => {
     const { status, component, team } = this.state;
     const { fetchPullRequests, setFilters } = this.props;
     fetchPullRequests(status, component, team);
-    setFilters(status, component, team);
+    setFilters({status, component, team});
   });
 };
 

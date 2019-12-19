@@ -21,12 +21,19 @@ class Body extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log('adsfasdf', nextProps, 'asdfasdf', prevState);
-    if (nextProps.status !== prevState.status 
-      || nextProps.component !== prevState.component 
-      || nextProps.team !== prevState.team
-    ) {
-      return { isChecked: false, prLinks: [] };
+    if (nextProps.status !== prevState.status || nextProps.component !== prevState.component || nextProps.team !== prevState.team) {
+      console.log('getDerivedStateFromProps called');
+      nextProps.prData.forEach((data) => {
+        // eslint-disable-next-line no-param-reassign
+        data.isChecked = false;
+      });
+      return {
+        isChecked: false, 
+        prLinks: [],
+        status: nextProps.status,
+        component: nextProps.component,
+        team: nextProps.team
+      };
     } return null;
   }
 
