@@ -14,7 +14,7 @@ import pullRequests from './src/routers/pullrequest.router';
 
 dotenv.config();
 mongoose
-  .connect(process.env.DB_CONNECTION, {
+  .connect(process.env.MLAB_CONNECTION, {
     useNewUrlParser: true,
   });
 
