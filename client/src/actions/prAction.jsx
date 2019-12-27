@@ -15,7 +15,7 @@ const setPrTrackerLoader = createAction(SET_PR_TRACKER_LOADING);
 export const setFilters = createAction(SET_FILTERS);
 
 export const fetchPullRequests = (status, component, team) => {
-  let url = '/api/pullrequests?';
+  let url = 'http://localhost:4000/api/pullrequests?';
   if (status) {
     url = `${url}status=${status}&`;
   }
@@ -39,11 +39,12 @@ export const fetchPullRequests = (status, component, team) => {
 };
 
 export const postPullRequests = () => {
-  const url = '/api/pullrequests';
+  const url = 'http://localhost:4000/api/pullrequests';
   return (dispatch) => {
     dispatch(setPrTrackerRefreshLoader(true));
     axios.post(url)
       .then((res) => {
+        dispatch(fetchPullRequests('open', '', ''));
         dispatch(setPrTrackerRefreshLoader(false));
         console.log(res);
       })
@@ -56,7 +57,7 @@ export const postPullRequests = () => {
 export const searchPullRequests = (jiraId) => {
   return (dispatch) => {
     dispatch(setPrTrackerLoader(true));
-    axios.get(`/api/pullrequests/search?q=RHIN-${jiraId}`)
+    axios.get(`http://localhost:4000/api/pullrequests/search?q=RHIN-${jiraId}`)
       .then((res) => {
         dispatch(getPrTrackerData(res.data));
         dispatch(setPrTrackerLoader(false));

@@ -81,7 +81,7 @@ class Body extends Component {
     this.setState({
       prLinks: prLinksData,
       isChecked,
-    }, () => { this.copyLinksToClipboard(); });
+    });
   }
 
   handleInputChangeAll = (e) => {
@@ -102,7 +102,7 @@ class Body extends Component {
     this.setState({
       prLinks: prLinksData,
       isChecked: !isChecked,
-    }, () => { this.copyLinksToClipboard(); });
+    });
   }
 
   render() {

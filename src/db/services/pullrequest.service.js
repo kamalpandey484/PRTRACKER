@@ -31,7 +31,6 @@ export const searchData = async (data) => {
       $regex: new RegExp(data),
     },
   }, {
-    _id: 0,
     _v: 0,
   }, (err, result) => result).limit(10);
   return myData;

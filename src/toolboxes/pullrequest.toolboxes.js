@@ -11,8 +11,8 @@ import { rhinoIndia, rhinoSouth } from '../constants/assignee.constant';
 dotenv.config();
 const apiKey = process.env.GITHUB_ACCESS_TOKEN;
 
-const getpr = (value, state) => {
-  const link = fetch(`https://api.github.com/repos/rhinogram/${value}/pulls?state=${state}&per_page=20&access_token=${apiKey}`)
+const getpr = (value, perPage, state) => {
+  const link = fetch(`https://api.github.com/repos/rhinogram/${value}/pulls?state=${state}&per_page=${perPage}&access_token=${apiKey}`)
     .then((res) => res.json());
   return link;
 };
@@ -29,8 +29,8 @@ export const getComments = async (component, value) => {
   return link;
 };
 
-export const getprcheck = async (state) => {
-  const getAllPrData = await Promise.all([getpr('rhinofront', state), getpr('rhinoapi', state), getpr('rhinostyle', state), getpr('rhinoaudit', state), getpr('rhinopay', state), getpr('rhinomatic', state), getpr('rhinoaudit-client', state), getpr('rhinotilities', state), getpr('rhinocron', state)])
+export const getprcheck = async (perPage, state) => {
+  const getAllPrData = await Promise.all([getpr('rhinofront', perPage, state), getpr('rhinoapi', perPage, state), getpr('rhinostyle', perPage, state), getpr('rhinoaudit', 2, state), getpr('rhinopay', 2, state), getpr('rhinomatic', 2, state), getpr('rhinoaudit-client', 2, state), getpr('rhinotilities', 2, state), getpr('rhinocron', 2, state)])
     .then((res) => res)
     .catch((e) => e);
   return getAllPrData;
@@ -59,8 +59,8 @@ const formatCommentsData = (commentsData, rhinoSouthTeam) => {
   return comments;
 };
 
-export const formatPrData = async (state) => {
-  const data = await getprcheck(state);
+export const formatPrData = async (perPage, state) => {
+  const data = await getprcheck(perPage, state);
   console.log('data', data);
   const totalData = [];
   for (const outerValue of data) {
@@ -104,8 +104,8 @@ export const formatPrData = async (state) => {
   return totalData;
 };
 
-export const postPullRequestData = async (state) => {
-  const data = await formatPrData(state);
+export const postPullRequestData = async (perPage, state = 'all') => {
+  const data = await formatPrData(perPage, state);
   for (const myData of data) {
     await postData(myData).then((res) => res);
   }
