@@ -61,6 +61,7 @@ const formatCommentsData = (commentsData, rhinoSouthTeam) => {
 
 export const formatPrData = async (perPage, state) => {
   const data = await getprcheck(perPage, state);
+  console.log('data', data);
   const totalData = [];
   for (const outerValue of data) {
     for (const innerValue of outerValue) {
@@ -97,6 +98,7 @@ export const formatPrData = async (perPage, state) => {
         comments,
       };
       totalData.push(myData);
+      console.log(totalData.length);
     }
   }
   return totalData;
