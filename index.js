@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 
 // Cron Jobs
 // eslint-disable-next-line no-new
-new CronJob('0 11 */1 * * *', () => {
+new CronJob('0 16 */1 * * *', () => {
   console.log('Cron job running!');
   postPullRequestData();
 }, null, true, 'Asia/Kolkata');
