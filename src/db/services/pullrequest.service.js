@@ -15,7 +15,6 @@ export const postData = async (mydata) => {
 export const getData = async (filters) => {
   // let defaultFilter = {};
   try {
-    console.log(filters);
     const data = await pr.find({ $and: [{ raisedBy: { $nin: ['rhinogram-circleci', null] } }, filters] })
       .sort({ openDate: -1 });
     return data;
