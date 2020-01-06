@@ -30,7 +30,7 @@ export const getComments = async (component, value) => {
 };
 
 export const getprcheck = async (perPage, state) => {
-  const getAllPrData = await Promise.all([getpr('rhinofront', perPage, state), getpr('rhinoapi', perPage, state), getpr('rhinostyle', 10, state), getpr('rhinoaudit', 5, state), getpr('rhinopay', 5, state), getpr('rhinomatic', 5, state), getpr('rhinoaudit-client', 5, state), getpr('rhinotilities', 5, state), getpr('rhinocron', 5, state)])
+  const getAllPrData = await Promise.all([getpr('rhinofront', perPage, state), getpr('rhinoapi', perPage, state), getpr('rhinostyle', 5, state), getpr('rhinoaudit', 3, state), getpr('rhinopay', 3, state), getpr('rhinomatic', 3, state), getpr('rhinoaudit-client', 3, state), getpr('rhinotilities', 3, state), getpr('rhinocron', 3, state)])
     .then((res) => res)
     .catch((e) => e);
   return getAllPrData;
