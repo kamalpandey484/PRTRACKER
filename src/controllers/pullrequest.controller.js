@@ -6,7 +6,7 @@ import {
 } from '../db/services/pullrequest.service';
 
 export const postPullRequests = async (req, res) => {
-  await postPullRequestData(20);
+  await postPullRequestData(30);
   res.json('successfully done!');
 };
 
